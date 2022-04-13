@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -o pipefail
+set -o errexit
 
 git config --global --add safe.directory /github/workspace
 
