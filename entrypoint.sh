@@ -2,6 +2,7 @@
 
 set -o pipefail
 set -o errexit
+set -x
 
 git config --global --add safe.directory /github/workspace
 
@@ -68,10 +69,14 @@ case "$tag_context" in
         ;;
     *branch*)
         taglist="$(git tag --list --merged HEAD --sort=-v:refname | grep -E "$tagFmt")"
+        echo "taglist: $taglist"
         tag="$(semver $taglist | tail -n 1)"
+        echo "tag: $tag"
 
         pre_taglist="$(git tag --list --merged HEAD --sort=-v:refname | grep -E "$preTagFmt")"
+        echo "pre_taglist: $pre_taglist"
         pre_tag=$(semver "$pre_taglist" | tail -n 1)
+        echo "pre_tag: $pre_tag"
         ;;
     * ) echo "Unrecognised context"; exit 1;;
 esac
