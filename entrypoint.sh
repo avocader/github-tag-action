@@ -44,11 +44,14 @@ for b in "${branch[@]}"; do
 done
 echo "pre_release = $pre_release"
 
+echo "about to fetch tags"
 # fetch tags
 git fetch --tags
 
 tagFmt="^v?[0-9]+\.[0-9]+\.[0-9]+$"
 preTagFmt="^v?[0-9]+\.[0-9]+\.[0-9]+(-$suffix\.[0-9]+)?$"
+
+echo "tag context: $tag_context"
 
 # get latest tag that looks like a semver (with or without v)
 case "$tag_context" in
@@ -69,6 +72,7 @@ case "$tag_context" in
     * ) echo "Unrecognised context"; exit 1;;
 esac
 
+echo "tag: $tag"
 
 # if there are none, start tags at INITIAL_VERSION which defaults to 0.0.0
 if [ -z "$tag" ]
